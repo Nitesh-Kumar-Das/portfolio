@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Send, Github, Linkedin, Twitter } from 'lucide-react';
+import { Mail, MapPin, Send, Github, Linkedin } from 'lucide-react';
 import { Instagram } from 'lucide-react';
 import { useState } from 'react';
 import emailjs from '@emailjs/browser';
@@ -31,7 +31,7 @@ export default function Contact() {
       );
       alert('Message sent successfully!');
       setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (err) {
+    } catch {
       alert('Something went wrong. Please try again later.');
     }
     setIsSubmitting(false);
@@ -82,7 +82,7 @@ export default function Contact() {
             </span>
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Ready to build intelligent solutions together? Let's discuss your AI project, 
+            Ready to build intelligent solutions together? Let&apos;s discuss your AI project, 
             full-stack development needs, or ML model requirements.
           </p>
         </motion.div>
@@ -95,7 +95,7 @@ export default function Contact() {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-2xl font-bold text-white mb-8">Let's Connect</h3>
+            <h3 className="text-2xl font-bold text-white mb-8">Let&apos;s Connect</h3>
             
             <div className="space-y-6 mb-8">
               {contactInfo.map((item, index) => (

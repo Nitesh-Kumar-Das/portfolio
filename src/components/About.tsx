@@ -53,7 +53,7 @@ const AnimatedCircularProgress = ({ value, index }: AnimatedCircularProgressProp
 			if (start === end) clearInterval(timer);
 		}, 1200 / end);
 		return () => clearInterval(timer);
-	}, [value]);
+	}, [value, progress]);
 	return (
 		<div className="w-20 h-20 mx-auto mb-4">
 			<CircularProgressbar
@@ -94,7 +94,7 @@ export default function About() {
 						</span>
 					</h2>
 					<p className="text-xl text-gray-300 max-w-3xl mx-auto">
-						I'm currently in my final year of college, focused on building
+						I&apos;m currently in my final year of college, focused on building
 						real-world projects and sharpening my development skills. My journey
 						is all about hands-on learning—creating web applications, experimenting
 						with AI, and building a strong portfolio through practical experience.
