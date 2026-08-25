@@ -1,0 +1,204 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Napkin-sketch design system — single source of truth for all tokens.
+   Nothing here gets duplicated inline in components.
+   --------------------------------------------------------------------------- */
+@theme {
+  /* Palette — soft pencil black, never pure #000 */
+  --color-paper: #fdfbf7;
+  --color-pencil: #2d2d2d;
+  --color-muted: #e5e0d8;
+  --color-accent: #ff4d4d;
+  /* Text-only sibling: #ff4d4d is 3.29:1 on paper (fails 4.5:1). This is 5.7:1.
+     Use accent for strokes/fills, accent-ink whenever the red carries words. */
+  --color-accent-ink: #c62222;
+  --color-ink: #2d5da1;
+  --color-postit: #fff9c4;
+
+  /* Type — wired to next/font variables in layout.tsx */
+  --font-hand: var(--font-kalam);
+  --font-body: var(--font-patrick);
+
+  /* Wobbly borders. Asymmetric multi-value radii are what stop this reading
+     as "Tailwind with the corners turned down". Never substitute rounded-lg. */
+  --radius-wobbly: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  --radius-wobbly-md: 125px 10px 130px 12px / 12px 130px 10px 125px;
+  --radius-wobbly-sm: 40px 8px 44px 6px / 6px 44px 8px 40px;
+  --radius-wobbly-alt: 15px 225px 15px 255px / 225px 15px 255px 15px;
+  --radius-oval: 50% 40% 55% 45% / 45% 55% 40% 50%;
+
+  /* Hard offset shadows — zero blur, always. A blur radius anywhere in this
+     system is a bug, including at mobile breakpoints. */
+  --shadow-hard-sm: 2px 2px 0 0 var(--color-pencil);
+  --shadow-hard: 4px 4px 0 0 var(--color-pencil);
+  --shadow-hard-md: 6px 6px 0 0 var(--color-pencil);
+  --shadow-hard-lg: 8px 8px 0 0 var(--color-pencil);
+  --shadow-card: 3px 3px 0 0 rgb(45 45 45 / 0.1);
+  --shadow-hard-accent: 4px 4px 0 0 var(--color-accent);
+  --shadow-hard-ink: 4px 4px 0 0 var(--color-ink);
+
+  /* Dramatic heading ramp — emphasized handwritten notes, not a uniform scale */
+  --text-scrawl: 0.8125rem;
+  --text-shout: clamp(2.75rem, 9vw, 6rem);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+@layer base {
+  html {
+    /* Lenis owns smooth scrolling; never both. */
+    scroll-behavior: auto;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-pencil);
+    font-family: var(--font-body);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    /* Paper tooth — the whole page sits on this, including above the canvas */
+    background-image: radial-gradient(var(--color-muted) 1px, transparent 1px);
+    background-size: 24px 24px;
+    background-attachment: fixed;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-hand);
+    font-weight: 700;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  /* Visible, unmistakable focus. The wobbly shapes make a default outline
+     hard to read, so it is replaced rather than removed. */
+  :focus-visible {
+    outline: 3px solid var(--color-ink);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-paper);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Utilities
+   --------------------------------------------------------------------------- */
+@utility paper-grain {
+  /* Shared tooth laid over photos and the WebGL canvas so neither floats
+     on its own glossy plane. Kept in CSS — cheaper and sharper than WebGL. */
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(var(--color-muted) 1px, transparent 1px);
+    background-size: 6px 6px;
+    opacity: 0.5;
+    mix-blend-mode: multiply;
+  }
+}
+
+@utility photo-paper {
+  /* Warm duotone pulling a studio photo toward paper/pencil. Full colour on
+     hover so the real headshot is still available. */
+  filter: sepia(0.5) saturate(0.72) contrast(1.08) brightness(1.03) hue-rotate(-8deg);
+  transition: filter 220ms ease-out;
+  &:hover {
+    filter: none;
+  }
+}
+
+@utility wavy-underline {
+  text-decoration-line: underline;
+  text-decoration-style: wavy;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 160ms ease-out;
+  &:hover {
+    text-decoration-color: var(--color-accent);
+  }
+}
+
+@utility strike-hover {
+  text-decoration-line: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 160ms ease-out;
+  &:hover {
+    text-decoration-color: var(--color-accent);
+  }
+}
+
+/* Decorative idle bounce — gentle and slow so it reads as hand-made drift */
+@utility bounce-slow {
+  animation: sketch-bob 3s ease-in-out infinite;
+}
+
+@keyframes sketch-bob {
+  /* Animates the independent `translate` property, not `transform` — an element
+     carrying a Tailwind -translate-x-1/2 would otherwise have it overwritten. */
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion — CSS half only. Every JS library carries its own
+   matchMedia check; this block does not govern them.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Mailbox loader.
+
+   The overlay is server-rendered so that on a first visit it covers the page
+   from the very first paint. Rendering it only after hydration left one frame
+   of bare page visible before the letter arrived.
+
+   A session that has already seen it gets `data-intro-seen` set by the inline
+   script in <head>, before first paint, so it is never even painted.
+   --------------------------------------------------------------------------- */
+html[data-intro-seen] .mailbox-overlay {
+  display: none;
+}
+
+/* Dead-man's switch. This overlay blocks the whole page, so it must never be
+   able to strand a visitor if the JS that dismisses it fails to run. */
+.mailbox-overlay {
+  animation: mb-failsafe 1ms linear 5s forwards;
+}
+
+@keyframes mb-failsafe {
+  to {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+}
+
+/* Split-text spans are injected by anime.js; keep them from breaking layout */
+.split-line {
+  overflow: hidden;
+}
