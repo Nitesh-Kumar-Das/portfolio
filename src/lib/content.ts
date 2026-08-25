@@ -15,7 +15,7 @@ export const profile = {
   linkedin: "https://www.linkedin.com/in/nitesh-kumar-das-224434297/",
   resume: "/resume.pdf",   // the file itself
   resumePage: "/resume",   // the page that previews and offers it
-  photo: "/nitesh.png",
+  photo: "/nitesh.webp",
   photoWidth: 1110,
   photoHeight: 1417,
 } as const;
