@@ -53,7 +53,7 @@ function AgroArt() {
       {/* trunk down to the fan */}
       <path className="sketch-path" d="M62 82v20" strokeWidth={2.5} {...stroke} />
       <path className="sketch-path" d="M34 102h134" strokeWidth={2.5} {...stroke} />
-      {services.map(([x, label], i) => (
+      {services.map(([x, label]) => (
         <g key={label} className="art-move" style={{ transformOrigin: `${x + 16}px 120px` }}>
           <path className="sketch-path" d={`M${x + 16} 102v12`} strokeWidth={2} {...stroke} />
           <rect
@@ -217,7 +217,7 @@ function GameArt() {
       {[124, 176].map((x) => (
         <circle key={x} className="sketch-path" cx={x} cy={55} r={5} strokeWidth={2.5} {...stroke} />
       ))}
-      {[112, 136, 164, 188].map((x, i) => (
+      {[112, 136, 164, 188].map((x) => (
         <circle
           key={x}
           className="art-move sketch-path"
