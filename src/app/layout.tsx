@@ -4,6 +4,7 @@ import { MotionRoot } from "@/components/motion/MotionRoot";
 import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import { ScrollReveals } from "@/components/motion/ScrollReveals";
 import { MailboxLoader } from "@/components/motion/MailboxLoader";
+import { WebAnalytics } from "@/components/analytics/WebAnalytics";
 import { profile } from "@/lib/content";
 import "./globals.css";
 
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SmoothScroll>{children}</SmoothScroll>
           <ScrollReveals />
         </MotionRoot>
+        <WebAnalytics />
       </body>
     </html>
   );
